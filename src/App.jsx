@@ -6,10 +6,16 @@ import DatePreview from './components/DatePreview';
 const App = () => {
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-2xl font-bold">Date Picker with Recurring Options</h1>
-      <DatePickerComponent />
-      <RecurrenceOptions />
-      <DatePreview />
+      <h1 className="text-2xl font-bold mb-4">Date Picker with Recurring Options</h1>
+      <div className="flex">
+        <div className="w-1/2 pr-4">
+          <DatePickerComponent />
+          <RecurrenceOptions />
+        </div>
+        <div className="w-1/2 pl-4">
+          <DatePreview />
+        </div>
+      </div>
     </div>
   );
 };
