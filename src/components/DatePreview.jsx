@@ -6,76 +6,98 @@ import { DateContext } from '../context/DateContext';
 const DatePreview = () => {
   const { startDate, endDate, recurrence } = useContext(DateContext);
 
-  // Function to check if a date should be highlighted
-  const isDateHighlighted = (date) => {
-    const day = date.getDay();
-    const dateOfMonth = date.getDate();
-
-    // Handle weekly recurrence
-    if (recurrence.frequency === 'Weekly' && recurrence.daysOfWeek.length > 0) {
-      return recurrence.daysOfWeek.includes(getDayName(day));
+  // hightlight the dates based on the recurr mode selection
+  const HightLightDates=(date)=>{
+    if (recurrence.frequency==='Daily'){
+      return isInRange(date);
     }
-
-    // Handle monthly recurrence
-    if (recurrence.frequency === 'Monthly') {
-      const nthDay = parseInt(recurrence.nthDay, 10);
-      if (recurrence.nthDay === 'last') {
-        const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-        return dateOfMonth === lastDay && getDayName(day) === recurrence.nthDayWeek;
-      } else {
-        return dateOfMonth === nthDay && getDayName(day) === recurrence.nthDayWeek;
-      }
+    else if(recurrence.frequency==='Weekly'){
+      // console.log('weekly is selected');
+      return isInRange(date) && isWeeklyRecurrence(date);
     }
-
-    // Check for selected specific dates
-    if (recurrence.selectedDates) {
-      if (recurrence.selectedDates.some(selectedDate =>
-        selectedDate.getDate() === dateOfMonth &&
-        selectedDate.getMonth() === date.getMonth() &&
-        selectedDate.getFullYear() === date.getFullYear()
-      )) {
-        return true;
-      }
+    else if(recurrence.frequency==='Yearly'){
+      // console.log('recurr yearly is selected');
+      return isYearlyRecurrence(date);
     }
-
-    // Highlight dates between start and end date
-    if (startDate && endDate) {
-      const currentDate = date.setHours(0, 0, 0, 0);
-      const start = startDate.setHours(0, 0, 0, 0);
-      const end = endDate.setHours(0, 0, 0, 0);
-      return currentDate >= start && currentDate <= end;
-    }
-
     return false;
+  }
+
+
+
+  // Function to check if a date is between the start and end dates
+  const isInRange = (date) => {
+    const normalizedDate = new Date(date).setHours(0, 0, 0, 0);
+    const normalizedStartDate = new Date(startDate).setHours(0, 0, 0, 0);
+    
+    if (!endDate && recurrence.frequency==='Weekly') {
+      return normalizedDate >= normalizedStartDate;
+    }
+    const normalizedEndDate = new Date(endDate).setHours(0, 0, 0, 0);
+
+    return normalizedDate >= normalizedStartDate && normalizedDate <= normalizedEndDate;
   };
 
-  // Helper function to get the day name
-  const getDayName = (day) => {
-    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    return days[day];
+
+
+
+  // below functions will handle the weely recurr option
+  const getDayName = (date) => {
+    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    return daysOfWeek[date.getDay()];
   };
 
-  // Function to customize day rendering in the calendar
-  const renderDayContents = (day, date) => {
-    return (
-      <div
-        className={`p-2 ${isDateHighlighted(date) ? 'bg-yellow-300 font-bold' : ''} rounded-full`}
-      >
-        {day}
-      </div>
-    );
+
+  const isWeeklyRecurrence = (date) => {
+    const dayName = getDayName(date);
+    // Check if date is before or equal to endDate
+    const isBeforeEndDate = !endDate || date <= endDate; 
+
+    return recurrence.daysOfWeek.includes(dayName) && isBeforeEndDate;
   };
+
+
+  // below functions are handle the yearly recurr slection
+
+  const isYearlyRecurrence = (date) => {
+
+    if (!startDate) {
+      return false; 
+    }
+
+    const startMonth = startDate.getMonth(); 
+    const startDay = startDate.getDate(); 
+    const startYear = startDate.getFullYear();
+  
+    const currentMonth = date.getMonth(); 
+    const currentDay = date.getDate();      
+    const currentYear = date.getFullYear(); 
+  
+    // Match only the month and day, and allow for any year after startDate's year
+    return currentMonth === startMonth && currentDay === startDay && currentYear >= startYear;
+  };
+  
+
+
+
 
   return (
     <div className="p-4 border rounded-lg shadow-lg">
-      <h2 className="font-semibold mb-2">Visual Preview:</h2>
-      <p className=' mb-4'>Select recurring dates displayed on the calendar:</p>
+      <h2 className="font-bold mb-2 text-2xl">Visual Preview:</h2>
+      <p className=' mb-4'>Selected recurring dates displayed on the calendar:</p>
+      <div className='flex justify-center'>
       <DatePicker
-        selected={startDate}
-        onChange={() => {}} 
-        inline
-        renderDayContents={(day, date) => renderDayContents(day, date)} 
-      />
+          className='mt-15 flex'
+          inline
+          selected={startDate} // Can be either startDate or endDate
+          onChange={()=>{}}
+          dayClassName={(date) =>
+            HightLightDates(date) ? "bg-yellow-400 text-white rounded-full" : undefined
+          }
+          renderDayContents={(day, date) => {
+            return <div>{day}</div>;
+          }}
+        />
+      </div>
     </div>
   );
 };

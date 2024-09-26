@@ -4,7 +4,7 @@ import { DateContext } from '../context/DateContext';
 const RecurrenceOptions = () => {
   const { recurrence, setRecurrence } = useContext(DateContext);
 
-  // Handle changes to recurrence options
+  // Handling the changes to recurrence options
   const handleRecurrenceChange = (e) => {
     setRecurrence({
       ...recurrence,
@@ -12,7 +12,7 @@ const RecurrenceOptions = () => {
     });
   };
 
-  // Handle changes for days of the week (Weekly Recurrence)
+  // Handling changes for days of the week (Weekly Recurrence)
   const handleDaySelection = (e) => {
     const { value, checked } = e.target;
     let updatedDays = [...recurrence.daysOfWeek];
@@ -29,7 +29,7 @@ const RecurrenceOptions = () => {
     });
   };
 
-  // Handle changes for nth day of the month (Monthly Recurrence)
+  // Handling changes for nth day of the month (Monthly Recurrence)
   const handleNthDayChange = (e) => {
     setRecurrence({
       ...recurrence,
@@ -41,7 +41,7 @@ const RecurrenceOptions = () => {
     <div className="p-4 border rounded-lg shadow-lg">
       {/* Frequency Selection */}
       <div className="mb-4">
-        <label>Recurrence Frequency:</label>
+        <label className='text-gray-700 font-bold mb-2'>Recurrence Frequency : </label>
         <select name="frequency" value={recurrence.frequency} onChange={handleRecurrenceChange} className="ml-2 p-1 border">
           <option value="Daily">Daily</option>
           <option value="Weekly">Weekly</option>
@@ -52,7 +52,7 @@ const RecurrenceOptions = () => {
 
       {/* Interval Selection */}
       <div className="mb-4">
-        <label>Every:</label>
+        <label className='text-gray-700 font-bold mb-2'>Every : </label>
         <input
           type="number"
           name="interval"
