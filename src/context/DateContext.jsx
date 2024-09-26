@@ -9,7 +9,7 @@ const DateProvider = ({ children }) => {
     frequency: 'Daily',
     interval: 1,
     daysOfWeek: [],
-    nthDay: null,
+    nthDay:1,
   });
 
   return (

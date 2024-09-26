@@ -42,7 +42,7 @@ const RecurrenceOptions = () => {
       {/* Frequency Selection */}
       <div className="mb-4">
         <label className='text-gray-700 font-bold mb-2'>Recurrence Frequency : </label>
-        <select name="frequency" value={recurrence.frequency} onChange={handleRecurrenceChange} className="ml-2 p-1 border">
+        <select name="frequency" value={recurrence.frequency} onChange={handleRecurrenceChange} className="ml-2 p-1 border rounded">
           <option value="Daily">Daily</option>
           <option value="Weekly">Weekly</option>
           <option value="Monthly">Monthly</option>
@@ -59,24 +59,24 @@ const RecurrenceOptions = () => {
           value={recurrence.interval}
           onChange={handleRecurrenceChange}
           min="1"
-          className="ml-2 p-1 border"
+          className="ml-2 p-1 border rounded"
         />
         <span> {recurrence.frequency.toLowerCase()}</span>
       </div>
 
       {/* Weekly Recurrence: Specific Days of the Week */}
       {recurrence.frequency === 'Weekly' && (
-        <div className="mb-4">
-          <label>Select Days of the Week:</label>
-          <div className="flex flex-wrap">
+        <div className="mb-4 h-1/2">
+          <label className='mb-22 text-2xl text-slate-800 underline'>Select Days of the Week : </label>
+          <div className="flex flex-wrap mt-3">
             {['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map((day) => (
-              <div key={day} className="mr-2">
+              <div key={day} className="mr-3">
                 <input
                   type="checkbox"
                   value={day}
                   checked={recurrence.daysOfWeek.includes(day)}
                   onChange={handleDaySelection}
-                  className="mr-1"
+                  className="mr-2"
                 />
                 <label>{day}</label>
               </div>

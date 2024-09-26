@@ -19,6 +19,10 @@ const DatePreview = () => {
       // console.log('recurr yearly is selected');
       return isYearlyRecurrence(date);
     }
+    else if(recurrence.frequency==='Monthly'){
+      // console.log('monthly reucrr is selected');
+      return isMonthlyRecurrence(date);
+    }
     return false;
   }
 
@@ -75,10 +79,49 @@ const DatePreview = () => {
     // Match only the month and day, and allow for any year after startDate's year
     return currentMonth === startMonth && currentDay === startDay && currentYear >= startYear;
   };
+
+
+
+  const isMonthlyRecurrence = (date) => {
+    // If the recurrence involves selecting nth occurrence of a day of the week (e.g., "first Monday")
+    if (recurrence.nthDay && recurrence.nthDayWeek) {
+      const nthDayMatch = calculateNthDayOfMonth(date.getFullYear(), date.getMonth());
+      // If nth occurrence matches and the date matches the calculated nth day
+      return nthDayMatch && date.getTime() === nthDayMatch.getTime();
+    }
   
-
-
-
+    // Specific day of the month (e.g., "15th of every month")
+    if (recurrence.specificDay) {
+      return date.getDate() === parseInt(recurrence.specificDay);
+    }
+  
+    return false;
+  };
+  
+  // it calculates the nth day of the month
+  const calculateNthDayOfMonth = (year, month) => {
+    const weekdayIndex = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].indexOf(
+      recurrence.nthDayWeek
+    );
+  
+    let count = 0;
+    let nthDayMatch = null;
+  
+    for (let day = 1; day <= 31; day++) {
+      const currentDate = new Date(year, month, day);
+      if (currentDate.getMonth() !== month) break;
+  
+      if (currentDate.getDay() === weekdayIndex) {
+        count++;
+        if (count === parseInt(recurrence.nthDay)) {
+          nthDayMatch = currentDate;
+          break;
+        }
+      }
+    }
+  
+    return nthDayMatch;
+  };
 
   return (
     <div className="p-4 border rounded-lg shadow-lg">
