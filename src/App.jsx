@@ -5,8 +5,8 @@ import DatePreview from './components/DatePreview';
 
 const App = () => {
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-4">Date Picker with Recurring Options</h1>
+    <div className="container mx-auto p-6  ">
+      <h1 className="mb-7 text-4xl text-blue-900">Date Picker with Recurring Options : </h1>
       <div className="flex">
         <div className="w-1/2 pr-4">
           <DatePickerComponent />

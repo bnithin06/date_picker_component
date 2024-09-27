@@ -124,17 +124,17 @@ const DatePreview = () => {
   };
 
   return (
-    <div className="p-4 border rounded-lg shadow-lg">
-      <h2 className="font-bold mb-2 text-2xl">Visual Preview:</h2>
+    <div className='bg-slate-200 rounded-lg p-7 '>
+      <h2 className="font-semibold mb-2 text-2xl">Visual Preview:</h2>
       <p className=' mb-4'>Selected recurring dates displayed on the calendar:</p>
       <div className='flex justify-center'>
       <DatePicker
-          className='mt-15 flex'
+          className='relative'
           inline
           selected={startDate} // Can be either startDate or endDate
           onChange={()=>{}}
           dayClassName={(date) =>
-            HightLightDates(date) ? "bg-yellow-400 text-white rounded-full" : undefined
+            HightLightDates(date) ? "bg-sky-500 text-white rounded-lg" : undefined
           }
           renderDayContents={(day, date) => {
             return <div>{day}</div>;

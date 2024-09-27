@@ -12,8 +12,8 @@ const DatePickerComponent = () => {
   };
 
   return (
-    <div className="p-4 mb-7 bg-white rounded-lg shadow-md">
-      <div className="mb-5">
+    <div className="p-4 mb-7 rounded-lg shadow-md bg-slate-200">
+      <div className="mb-5"> 
         <label className="block text-gray-700 font-bold mb-2">Start Date:</label>
         <div className="relative">
           <DatePicker
@@ -39,7 +39,7 @@ const DatePickerComponent = () => {
             renderDayContents={(day, date) => renderDayContents(day, date)}
             isClearable
             placeholderText="Select End Date"
-            className="w-full pl-10 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full pl-10 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <div className="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-500">
             <FaCalendarAlt />

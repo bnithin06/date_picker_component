@@ -38,7 +38,7 @@ const RecurrenceOptions = () => {
   };
 
   return (
-    <div className="p-4 border rounded-lg shadow-lg">
+    <div className="p-4 border rounded-lg shadow-lg bg-slate-200">
       {/* Frequency Selection */}
       <div className="mb-4">
         <label className='text-gray-700 font-bold mb-2'>Recurrence Frequency : </label>
